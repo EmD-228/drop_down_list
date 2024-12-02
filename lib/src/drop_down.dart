@@ -200,6 +200,7 @@ class _MainBodyState extends State<MainBody> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
+                            style: widget.dropDown.doneButtonStyle,
                             onPressed: () {
                               List<SelectedListItem> selectedList = widget
                                   .dropDown.data
@@ -266,7 +267,6 @@ class _MainBodyState extends State<MainBody> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: TextButton(
-                            style: widget.dropDown.doneButtonStyle,
                             onPressed: () => setState(() {
                               for (var element in mainList) {
                                 element.isSelected = !isSelectAll;
