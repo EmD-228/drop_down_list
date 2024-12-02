@@ -86,12 +86,14 @@ class DropDown {
 
   /// Number of items that can be selected when multiple selection is enabled.
   final int? maxSelectedItems;
-  ButtonStyle? doneButtonStyle, clearButtonStyle;
+  final ButtonStyle? doneButtonStyle, clearButtonStyle;
+  final FocusNode? nodeFocus;
 
   DropDown({
     Key? key,
     required this.data,
     this.maxSelectedItems,
+    this.nodeFocus,
     this.doneButtonStyle,
     this.clearButtonStyle,
     this.selectedItems,
