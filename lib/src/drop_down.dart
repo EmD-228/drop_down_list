@@ -86,11 +86,14 @@ class DropDown {
 
   /// Number of items that can be selected when multiple selection is enabled.
   final int? maxSelectedItems;
+  ButtonStyle? doneButtonStyle, clearButtonStyle;
 
   DropDown({
     Key? key,
     required this.data,
     this.maxSelectedItems,
+    this.doneButtonStyle,
+    this.clearButtonStyle,
     this.selectedItems,
     this.onSelected,
     this.listItemBuilder,
@@ -219,21 +222,6 @@ class _MainBodyState extends State<MainBody> {
                           ),
                         ),
                       ),
-                      widget.dropDown.enableMultipleSelection
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  for (final element in mainList) {
-                                    element.isSelected = false;
-                                  }
-                                  setState(() {});
-                                },
-                                child: widget.dropDown.clearButtonChild ??
-                                    const Text('Clear'),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
@@ -250,29 +238,50 @@ class _MainBodyState extends State<MainBody> {
                         searchCursorColor: widget.dropDown.searchCursorColor,
                       ),
                 ),
+                Row(
+                  children: [
+                    widget.dropDown.enableMultipleSelection
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: ElevatedButton(
+                              style: widget.dropDown.clearButtonStyle,
+                              onPressed: () {
+                                for (final element in mainList) {
+                                  element.isSelected = false;
+                                }
+                                setState(() {});
+                              },
+                              child: widget.dropDown.clearButtonChild ??
+                                  const Text('Clear'),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
 
-                /// Select or Deselect TextButton when enableMultipleSelection is enabled
-                if (widget.dropDown.enableMultipleSelection &&
-                    widget.dropDown.isSelectAllVisible &&
-                    mainList.isNotEmpty)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: TextButton(
-                        onPressed: () => setState(() {
-                          for (var element in mainList) {
-                            element.isSelected = !isSelectAll;
-                          }
-                        }),
-                        child: isSelectAll
-                            ? widget.dropDown.deSelectAllTextButtonChild ??
-                                const Text('Deselect All')
-                            : widget.dropDown.selectAllTextButtonChild ??
-                                const Text('Select All'),
+                    /// Select or Deselect TextButton when enableMultipleSelection is enabled
+                    if (widget.dropDown.enableMultipleSelection &&
+                        widget.dropDown.isSelectAllVisible &&
+                        mainList.isNotEmpty)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: TextButton(
+                            style: widget.dropDown.doneButtonStyle,
+                            onPressed: () => setState(() {
+                              for (var element in mainList) {
+                                element.isSelected = !isSelectAll;
+                              }
+                            }),
+                            child: isSelectAll
+                                ? widget.dropDown.deSelectAllTextButtonChild ??
+                                    const Text('Deselect All')
+                                : widget.dropDown.selectAllTextButtonChild ??
+                                    const Text('Select All'),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                  ],
+                ),
 
                 /// Listview (list of data with check box for multiple selection & on tile tap single selection)
                 Expanded(
